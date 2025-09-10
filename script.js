@@ -19,51 +19,45 @@ const cardapio = {
 }
 
 
-function mostrarRefeicao(refeicao){
+function mostrarRefeicao(refeicao) {
     const section = document.createElement('section')
 
-        const h4 = document.createElement('h4')
-        h4.textContent = refeicao.titulo
-        section.appendChild(h4)
+    const h4 = document.createElement('h4')
+    h4.textContent = refeicao.titulo
+    section.appendChild(h4)
 
-        const div = document.createElement('div')
-        section.appendChild(div)
+    const div = document.createElement('div')
+    section.appendChild(div)
 
 
-        const ul = document.createElement('ul')
-        div.appendChild(ul)
+    const ul = document.createElement('ul')
+    div.appendChild(ul)
 
-        const li0 = document.createElement('li')
-        li0.textContent = refeicao.itens[0]
-        ul.appendChild(li0)
+    for (let i = 0; i < refeicao.itens.length; i++) {
+        const li = document.createElement('li')
+        li.textContent = refeicao.itens[i]
+        ul.appendChild(li)
 
-        const li1 = document.createElement('li')
-        li1.textContent = `Sobremesa: ${refeicao.itens[1]}`
-        ul.appendChild(li1)
+    }
 
-        const li2 = document.createElement('li')
-        li2.textContent = `Bebida: ${refeicao.bebida}`
-        ul.appendChild(li2)
+    const li = document.createElement('li')
+    li.textContent = `Bebida: ${refeicao.bebida}`
+    ul.appendChild(li)
 
-        const figure = document.createElement('figure')
-        div.appendChild(figure)
+    const figure = document.createElement('figure')
+    div.appendChild(figure)
 
-        const img0 = document.createElement('img')
-        img0.src = refeicao.img[0]
-        img0.alt = `foto ${refeicao.itens}`
-        img0.style.padding = '5px'
-        figure.appendChild(img0)
+    for (let i = 0; i < refeicao.img.length; i++) {
+        const img = document.createElement('img')
+        img.src = refeicao.img[i]
+        img.style.padding = '5px'
+        figure.appendChild(img)
+    }
 
-        const img1 = document.createElement('img')
-        img1.src = refeicao.img[1]
-        img1.alt = refeicao.bebida
-        img1.style.padding = '5px'
-        figure.appendChild(img1)
-
-        return section
+    return section
 }
 
-function mostrarPesquisa(){
+function mostrarPesquisa() {
     const aside = document.createElement('aside')
 
     const h2 = document.createElement('h2')
@@ -81,34 +75,34 @@ function mostrarPesquisa(){
     button.id = 'botaoMostrarFormulario'
     aside.appendChild(button)
 
-    main.appendChild(aside)  
+    main.appendChild(aside)
 }
 
-    
-function iniciarSite(){
-const main = document.querySelector('main')
-const h2 = document.createElement('h2')
-main.appendChild(h2)
-if (dia === 'domingo') {
-    h2.textContent = 'Cardápio Indisponivel'
-} else {
-    h2.textContent = 'Cardápio do Dia'
 
-    const h3 = document.createElement('h3')
-    h3.textContent = `${cardapio.dia} - turno: ${cardapio.turno}`
-    main.appendChild(h3)
+function iniciarSite() {
+    const main = document.querySelector('main')
+    const h2 = document.createElement('h2')
+    main.appendChild(h2)
+    if (dia === 'domingo') {
+        h2.textContent = 'Cardápio Indisponivel'
+    } else {
+        h2.textContent = 'Cardápio do Dia'
+
+        const h3 = document.createElement('h3')
+        h3.textContent = `${cardapio.dia} - turno: ${cardapio.turno}`
+        main.appendChild(h3)
 
 
-    main.appendChild(mostrarRefeicao(cardapio.refeicao))
+        main.appendChild(mostrarRefeicao(cardapio.refeicao))
 
-    if (turno === 'tarde') {
-        main.appendChild(mostrarRefeicao(cardapio.lanche))
+        if (turno === 'tarde') {
+            main.appendChild(mostrarRefeicao(cardapio.lanche))
+        }
+
+        mostrarPesquisa()
+
     }
 
-    mostrarPesquisa()
-
-}    
- 
 }
 
 iniciarSite()
