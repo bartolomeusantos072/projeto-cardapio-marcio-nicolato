@@ -1,9 +1,16 @@
 const main = document.querySelector('main')
-main.innerHTML=`
-<h2>Cardápio do Dia</h2>
-        <h3>terça-feira - manhã</h3>
-        <section>
-            <h4>almoço</h4>
+
+const h2 = document.createElement('h2')
+h2.textContent='Cardápio do Dia'
+main.appendChild(h2)
+
+const h3 = document.createElement('h3')
+h3.textContent='terça-feira - manhã'
+main.appendChild(h3)
+
+const section = document.createElement('section')
+section.innerHTML+=`
+<h4>almoço</h4>
             <div>
                 <ul>
                     <li>Prato Principal: Feijoada, arroz, farofa, couve</li>
@@ -17,9 +24,11 @@ main.innerHTML=`
                         alt="jarra com suco de limão">
                 </figure>
             </div>
-        </section>
-        <section>
-            <h4>Lanche</h4>
+`
+main.appendChild(section)
+
+const section2= document.createElement('section')
+section2.innerHTML=`<h4>Lanche</h4>
             <div>
                 <ul>
                     <li>pão com manteiga</li>
@@ -32,10 +41,12 @@ main.innerHTML=`
                         <img src="https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg" alt="copo de café">
                 </figure>
             </div>
-        </section>
-       <aside>
-        <h2>Pesquisa sobre a Cardápio Escolar</h2>
+`
+main.appendChild(section2)
+
+const aside = document.createElement('aside')
+aside.innerHTML=` <h2>Pesquisa sobre a Cardápio Escolar</h2>
                 <p>Queremos saber o que você achou da refeição de hoje! Participe da pesquisa e nos ajude a melhorar!</p>
                 <button id="botaoMostrarFormulario" type="button">Responder Pesquisa</button>
-       </aside>
 `
+main.appendChild(aside)
