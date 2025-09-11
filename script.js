@@ -2,9 +2,10 @@ const turno = 'tarde'
 const dia = 'quarta-feira'
 
 //mudar dia para data atual
-const cardapio = {
+const cardapios = [
+    {
     data: '2025-09-10T00:00:00-03:00',
-    turno: 'noturno',
+    turno: 'integral',
     refeicao: {
         titulo: 'janta',
         itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
@@ -17,7 +18,38 @@ const cardapio = {
         bebida: 'café com leite',
         img: ['https://blog.unicpharma.com.br/wp-content/uploads/2019/06/manteiga_1.jpg', 'https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg'],
     }
+},{
+    data: '2025-09-10T00:00:00-03:00',
+    turno: 'manhã',
+    refeicao: {
+        titulo: 'janta',
+        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
+        bebida: 'Suco de laranja',
+        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
+    },
+
+},{
+    data: '2025-09-10T00:00:00-03:00',
+    turno: 'tarde',
+    refeicao: {
+        titulo: 'janta',
+        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
+        bebida: 'Suco de laranja',
+        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
+    },
+    
+},{
+    data: '2025-09-10T00:00:00-03:00',
+    turno: 'noturno',
+    refeicao: {
+        titulo: 'janta',
+        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
+        bebida: 'Suco de laranja',
+        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
+    },
+    
 }
+]
 //tratar data
 function organizarRotina(cardapio) {
     const hoje = new Date(cardapio.data)
@@ -109,7 +141,7 @@ function iniciarSite() {
     const h2 = document.createElement('h2')
     main.appendChild(h2)
 
-    const { dia, data, turno } = organizarRotina(cardapio)
+    const { dia, data, turno } = organizarRotina(cardapios[3])
     if (turno !== verificarTurnoAtual() || !dia) {
         h2.textContent = 'Cardápio Indisponivel'    
     } else {
@@ -119,11 +151,11 @@ function iniciarSite() {
         const titulo = `${data} ${dia} - turno: ${turno}`
         
 
-        main.appendChild(mostrarRefeicao(cardapio.refeicao, titulo))
-
-        if (turno === 'noturno') {
+        main.appendChild(mostrarRefeicao(cardapios[3].refeicao, titulo))
+        console.log(turno)
+        if (turno === 'tarde') {
             const titulo = `${data} ${dia} - turno: ${turno}`
-            main.appendChild(mostrarRefeicao(cardapio.lanche, titulo))
+            main.appendChild(mostrarRefeicao(cardapios[0].lanche, titulo))
         }
 
         mostrarPesquisa()
