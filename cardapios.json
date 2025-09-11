@@ -1,0 +1,63 @@
+[
+  {
+    "data": "2025-09-11T00:00:00-03:00",
+    "turno": "integral",
+    "refeicao": {
+      "titulo": "janta",
+      "itens": ["Feijoada", "arroz", "farofa", "couve"],
+      "bebida": "Suco de laranja",
+      "img": [
+        "https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg",
+        "https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg"
+      ]
+    },
+    "lanche": {
+      "titulo": "cafe da tarde",
+      "itens": ["pão com manteiga", "broa de fubá"],
+      "bebida": "café com leite",
+      "img": [
+        "https://blog.unicpharma.com.br/wp-content/uploads/2019/06/manteiga_1.jpg",
+        "https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg"
+      ]
+    }
+  },
+  {
+    "data": "2025-09-11T00:00:00-03:00",
+    "turno": "manhã",
+    "refeicao": {
+      "titulo": "janta",
+      "itens": ["Feijoada", "arroz", "farofa", "couve"],
+      "bebida": "Suco de laranja",
+      "img": [
+        "https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg",
+        "https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg"
+      ]
+    }
+  },
+  {
+    "data": "2025-09-11T00:00:00-03:00",
+    "turno": "tarde",
+    "refeicao": {
+      "titulo": "janta",
+      "itens": ["Feijoada", "arroz", "farofa", "couve"],
+      "bebida": "Suco de laranja",
+      "img": [
+        "https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg",
+        "https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg"
+      ]
+    }
+  },
+  {
+    "data": "2025-09-11T00:00:00-03:00",
+    "turno": "noturno",
+    "refeicao": {
+      "titulo": "janta",
+      "itens": ["Feijoada", "arroz", "farofa", "couve"],
+      "bebida": "Suco de laranja",
+      "img": [
+        "https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg",
+        "https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg"
+      ]
+    }
+  }
+]

@@ -2,54 +2,20 @@ const turno = 'tarde'
 const dia = 'quarta-feira'
 
 //mudar dia para data atual
-const cardapios = [
-    {
-    data: '2025-09-11T00:00:00-03:00',
-    turno: 'integral',
-    refeicao: {
-        titulo: 'janta',
-        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
-        bebida: 'Suco de laranja',
-        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
-    },
-    lanche: {
-        titulo: 'cafe da tarde',
-        itens: ['pão com manteiga', 'broa de fubá'],
-        bebida: 'café com leite',
-        img: ['https://blog.unicpharma.com.br/wp-content/uploads/2019/06/manteiga_1.jpg', 'https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg'],
-    }
-},{
-    data: '2025-09-11T00:00:00-03:00',
-    turno: 'manhã',
-    refeicao: {
-        titulo: 'janta',
-        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
-        bebida: 'Suco de laranja',
-        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
-    },
+async function fetchCardapios() {
+    try {
+        const url='./cardapios.json'
+        const response = await fetch(url)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json()
+        return data
 
-},{
-    data: '2025-09-11T00:00:00-03:00',
-    turno: 'tarde',
-    refeicao: {
-        titulo: 'janta',
-        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
-        bebida: 'Suco de laranja',
-        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
-    },
-    
-},{
-    data: '2025-09-11T00:00:00-03:00',
-    turno: 'noturno',
-    refeicao: {
-        titulo: 'janta',
-        itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
-        bebida: 'Suco de laranja',
-        img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
-    },
-    
+    } catch (error) {
+        console.error('Erro ao buscar cardápios:', error);        
+    }
 }
-]
 //tratar data
 function organizarRotina(cardapio) {
     console.log(cardapio)
@@ -137,9 +103,15 @@ function mostrarPesquisa() {
 }
 
 
-function iniciarSite() {
+async function iniciarSite() {
     const h2 = document.createElement('h2');
     main.appendChild(h2);
+    const cardapios = await fetchCardapios();
+    if (!cardapios) {
+        h2.textContent = 'Cardápio Indisponível';
+        return;
+    }
+
 
     const hoje = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
     const turnoAtual = verificarTurnoAtual();
@@ -149,10 +121,6 @@ function iniciarSite() {
         c.data.startsWith(hoje)
     );
 
-    if (!cardapio) {
-        h2.textContent = 'Cardápio Indisponível';
-        return;
-    }
 
     const { dia, data, turno } = organizarRotina(cardapio);
     h2.textContent = 'Cardápio do Dia';
