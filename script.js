@@ -81,18 +81,10 @@ function mostrarRefeicao(refeicao, titulo) {
     return section
 }
 
-function mostrarPesquisa() {
-  const aside = document.querySelector('aside');
-  aside.innerHTML = ''; // Remove conteúdo anterior
-  
-  const h2 = document.createElement('h2');
-  h2.textContent='Pesquisa sobre Cardápio Escolar'
-  aside.appendChild(h2)  
-  
-  const form = document.createElement('form');
-  const fieldsetDados = document.createElement('fieldset');
+function fieldsetDados(){
+   const fieldset = document.createElement('fieldset');
 
-  fieldsetDados.innerHTML=`<!-- DADOS DO ALUNO -->
+  fieldset.innerHTML=`<!-- DADOS DO ALUNO -->
   <fieldset>
                     <legend>Informações Pessoais</legend>
 
@@ -109,8 +101,11 @@ function mostrarPesquisa() {
                     <input type="date" id="data" name="data" required><br><br>
     </fieldset>
   `
-  const fildsetAvaliarRefeicao = document.createElement('fieldset');
-    fildsetAvaliarRefeicao.innerHTML=`<!-- AVALIAÇÃO DA REFEIÇÃO -->
+}
+function fildsetAvaliarRefeicao(){
+const fieldset = document.createElement('fieldset');
+    
+ return fieldset.innerHTML=`
                 <fieldset>
                     <legend>Sobre a refeição de hoje</legend>
 
@@ -139,31 +134,49 @@ function mostrarPesquisa() {
                     <label for="horario">Que horas você almoçou?</label><br>
                     <input type="time" id="horario" name="horario"><br><br>        
                 </fieldset>`
-  const fieldsetComentario = document.createElement('fieldset');
-  fieldsetComentario.innerHTML=`
-                <!-- COMENTÁRIO LIVRE -->
-                <fieldset>
-                    <legend>Comentário livre</legend>
-                    <label for="assunto">Deixe sua opinião ou sugestão:</label><br>
-                    <select id="assunto" name="assunto">
-                        <option value="">-- Escolha uma opção --</option>
-                        <option value="reclamacao">Reclamação</option>
-                        <option value="sugestao">Sugestão</option>
-                        <option value="elogios">Elogios</option>
-                        <option value="outros-assuntos">Outros Assuntos</option>
-                    </select><br><br>
-                    <textarea id="mensagem" name="mensagem" rows="5" cols="40"
-                        placeholder="Digite aqui..."></textarea><br><br>
-                </fieldset>
+}
 
+  function fieldsetComentario(){
+      const fieldset = document.createElement('fieldset');
+
+      fieldset.innerHTML=`
+      <!-- COMENTÁRIO LIVRE -->
+      <fieldset>
+      <legend>Comentário livre</legend>
+      <label for="assunto">Deixe sua opinião ou sugestão:</label><br>
+      <select id="assunto" name="assunto">
+      <option value="">-- Escolha uma opção --</option>
+      <option value="reclamacao">Reclamação</option>
+      <option value="sugestao">Sugestão</option>
+      <option value="elogios">Elogios</option>
+      <option value="outros-assuntos">Outros Assuntos</option>
+      </select><br><br>
+      <textarea id="mensagem" name="mensagem" rows="5" cols="40"
+      placeholder="Digite aqui..."></textarea><br><br>
+      </fieldset>
+      
   `
-    form.appendChild(fieldsetDados);
-    form.appendChild(fildsetAvaliarRefeicao);
-    form.appendChild(fieldsetComentario);
-  const enviar = document.createElement('button');
-  enviar.textContent = 'Enviar';
-  enviar.type = 'submit';
-  form.appendChild(enviar);
+}
+function mostrarPesquisa() {
+  const aside = document.querySelector('aside');
+  aside.innerHTML = ''; // Remove conteúdo anterior
+  
+  const h2 = document.createElement('h2');
+  h2.textContent='Pesquisa sobre Cardápio Escolar'
+  aside.appendChild(h2)  
+  
+  const form = document.createElement('form');
+
+  
+
+
+    form.appendChild(fieldsetDados());
+    form.appendChild(fildsetAvaliarRefeicao());
+    form.appendChild(fieldsetComentario());
+    const enviar = document.createElement('button');
+    enviar.textContent = 'Enviar';
+    enviar.type = 'submit';
+    form.appendChild(enviar);
 
   aside.appendChild(form);
 }
