@@ -32,11 +32,11 @@ function organizarRotina(cardapio) {
 
 function verificarTurnoAtual() {
     const agora = new Date().getHours() * 60 + new Date().getMinutes()
-    if (agora <= 570) return 'manha' // 9h30}
+
     if (agora > 570 && agora < 720) return 'integral' // 12h
     if (agora >= 720 && agora < 840) return 'tarde' // 14h
-    if (agora >= 840 && agora < 1215) return 'integral'
-    return 'noturno' // 20h
+    if (agora >= 840 && agora < 1215) return 'noturno' // 20h
+    return 'manhã'
 }
 
 function mostrarRefeicao(refeicao, titulo) {
@@ -111,7 +111,7 @@ async function iniciarSite() {
         h2.textContent = 'Cardápio Indisponível';
         return;
     }
-
+    
 
     const hoje = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
     const turnoAtual = verificarTurnoAtual();
