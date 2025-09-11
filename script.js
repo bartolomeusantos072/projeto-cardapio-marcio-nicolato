@@ -4,7 +4,7 @@ const dia = 'quarta-feira'
 //mudar dia para data atual
 async function fetchCardapios() {
     try {
-        const url='https://api-cantina-storage.vercel.app/cardapios'
+        const url = 'https://api-cantina-storage.vercel.app/cardapios'
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -13,7 +13,7 @@ async function fetchCardapios() {
         return data
 
     } catch (error) {
-        console.error('Erro ao buscar cardápios:', error);        
+        console.error('Erro ao buscar cardápios:', error);
     }
 }
 //tratar data
@@ -81,106 +81,284 @@ function mostrarRefeicao(refeicao, titulo) {
     return section
 }
 
-function fieldsetDados(){
-   const fieldset = document.createElement('fieldset');
+function fieldsetDadosPessoais() {
+  // Cria o fieldset e a legend
+  const fieldset = document.createElement('fieldset');
+  const legend = document.createElement('legend');
+  legend.textContent = 'Informações Pessoais';
+  fieldset.appendChild(legend);
 
-  fieldset.innerHTML=`<!-- DADOS DO ALUNO -->
-  <fieldset>
-                    <legend>Informações Pessoais</legend>
+  // Label e input - Nome
+  const labelNome = document.createElement('label');
+  labelNome.setAttribute('for', 'nome');
+  labelNome.textContent = 'Nome completo:';
+  const inputNome = document.createElement('input');
+  inputNome.type = 'text';
+  inputNome.id = 'nome';
+  inputNome.name = 'nome';
+  inputNome.placeholder = 'Digite seu nome';
+  inputNome.required = true;
 
-                    <label for="nome">Nome completo:</label><br>
-                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required><br><br>
+  fieldset.appendChild(labelNome);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(inputNome);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
 
-                    <label for="idade">Idade:</label><br>
-                    <input type="number" id="idade" name="idade" min="6" max="20" required><br><br>
+  // Label e input - Idade
+  const labelIdade = document.createElement('label');
+  labelIdade.setAttribute('for', 'idade');
+  labelIdade.textContent = 'Idade:';
+  const inputIdade = document.createElement('input');
+  inputIdade.type = 'number';
+  inputIdade.id = 'idade';
+  inputIdade.name = 'idade';
+  inputIdade.min = 6;
+  inputIdade.max = 20;
+  inputIdade.required = true;
 
-                    <label for="email">Email (opcional):</label><br>
-                    <input type="email" id="email" name="email" placeholder="email@exemplo.com"><br><br>
+  fieldset.appendChild(labelIdade);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(inputIdade);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
 
-                    <label for="data">Data da refeição:</label><br>
-                    <input type="date" id="data" name="data" required><br><br>
-    </fieldset>
-  `
+  // Label e input - Email
+  const labelEmail = document.createElement('label');
+  labelEmail.setAttribute('for', 'email');
+  labelEmail.textContent = 'Email (opcional):';
+  const inputEmail = document.createElement('input');
+  inputEmail.type = 'email';
+  inputEmail.id = 'email';
+  inputEmail.name = 'email';
+  inputEmail.placeholder = 'email@exemplo.com';
+
+  fieldset.appendChild(labelEmail);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(inputEmail);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  // Label e input - Data
+  const labelData = document.createElement('label');
+  labelData.setAttribute('for', 'data');
+  labelData.textContent = 'Data da refeição:';
+  const inputData = document.createElement('input');
+  inputData.type = 'date';
+  inputData.id = 'data';
+  inputData.name = 'data';
+  inputData.required = true;
+
+  fieldset.appendChild(labelData);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(inputData);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  return fieldset;
 }
-function fildsetAvaliarRefeicao(){
-const fieldset = document.createElement('fieldset');
-    
- return fieldset.innerHTML=`
-                <fieldset>
-                    <legend>Sobre a refeição de hoje</legend>
 
-                    <p>Você participou da refeição?</p>
-                    <input type="radio" id="sim" name="participacao" value="sim" required>
-                    <label for="sim">Sim</label><br>
-                    <input type="radio" id="nao" name="participacao" value="nao">
-                    <label for="nao">Não</label><br><br>
 
-                    <p>Como estava a refeição?</p>
-                    <input type="checkbox" id="saborosa" name="avaliacao" value="saborosa">
-                    <label for="saborosa">Saborosa</label><br>
+function fieldsetAvaliarRefeicao() {
+  const fieldset = document.createElement('fieldset');
 
-                    <input type="checkbox" id="quente" name="avaliacao" value="quente">
-                    <label for="quente">Estava quente</label><br>
+  const legend = document.createElement('legend');
+  legend.textContent = 'Sobre a refeição de hoje';
+  fieldset.appendChild(legend);
 
-                    <input type="checkbox" id="pouco-salgada" name="avaliacao" value="pouco-salgada">
-                    <label for="pouco-salgada">Pouco salgada</label><br>
+  // --- Pergunta: Você participou da refeição?
+  const perguntaParticipacao = document.createElement('p');
+  perguntaParticipacao.textContent = 'Você participou da refeição?';
+  fieldset.appendChild(perguntaParticipacao);
 
-                    <input type="checkbox" id="nao-gostei" name="avaliacao" value="nao-gostei">
-                    <label for="nao-gostei">Não gostei</label><br><br>
+  // Radio "Sim"
+  const inputSim = document.createElement('input');
+  inputSim.type = 'radio';
+  inputSim.id = 'sim';
+  inputSim.name = 'participacao';
+  inputSim.value = 'sim';
+  inputSim.required = true;
 
-                    <label for="nota">Dê uma nota de 0 a 10:</label><br>
-                    <input type="number" id="nota" name="nota" min="0" max="10" step="1"><br><br>
+  const labelSim = document.createElement('label');
+  labelSim.setAttribute('for', 'sim');
+  labelSim.textContent = 'Sim';
 
-                    <label for="horario">Que horas você almoçou?</label><br>
-                    <input type="time" id="horario" name="horario"><br><br>        
-                </fieldset>`
+  fieldset.appendChild(inputSim);
+  fieldset.appendChild(labelSim);
+  fieldset.appendChild(document.createElement('br'));
+
+  // Radio "Não"
+  const inputNao = document.createElement('input');
+  inputNao.type = 'radio';
+  inputNao.id = 'nao';
+  inputNao.name = 'participacao';
+  inputNao.value = 'nao';
+
+  const labelNao = document.createElement('label');
+  labelNao.setAttribute('for', 'nao');
+  labelNao.textContent = 'Não';
+
+  fieldset.appendChild(inputNao);
+  fieldset.appendChild(labelNao);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  // --- Pergunta: Como estava a refeição?
+  const perguntaAvaliacao = document.createElement('p');
+  perguntaAvaliacao.textContent = 'Como estava a refeição?';
+  fieldset.appendChild(perguntaAvaliacao);
+
+  // Checkboxes
+  const opcoesAvaliacao = [
+    { id: 'saborosa', texto: 'Saborosa' },
+    { id: 'quente', texto: 'Estava quente' },
+    { id: 'pouco-salgada', texto: 'Pouco salgada' },
+    { id: 'nao-gostei', texto: 'Não gostei' }
+  ];
+
+  opcoesAvaliacao.forEach(opcao => {
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = opcao.id;
+    input.name = 'avaliacao';
+    input.value = opcao.id;
+
+    const label = document.createElement('label');
+    label.setAttribute('for', opcao.id);
+    label.textContent = opcao.texto;
+
+    fieldset.appendChild(input);
+    fieldset.appendChild(label);
+    fieldset.appendChild(document.createElement('br'));
+  });
+
+  fieldset.appendChild(document.createElement('br'));
+
+  // --- Nota de 0 a 10
+  const labelNota = document.createElement('label');
+  labelNota.setAttribute('for', 'nota');
+  labelNota.textContent = 'Dê uma nota de 0 a 10:';
+  fieldset.appendChild(labelNota);
+  fieldset.appendChild(document.createElement('br'));
+
+  const inputNota = document.createElement('input');
+  inputNota.type = 'number';
+  inputNota.id = 'nota';
+  inputNota.name = 'nota';
+  inputNota.min = '0';
+  inputNota.max = '10';
+  inputNota.step = '1';
+
+  fieldset.appendChild(inputNota);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  // --- Horário da refeição
+  const labelHorario = document.createElement('label');
+  labelHorario.setAttribute('for', 'horario');
+  labelHorario.textContent = 'Que horas você almoçou?';
+  fieldset.appendChild(labelHorario);
+  fieldset.appendChild(document.createElement('br'));
+
+  const inputHorario = document.createElement('input');
+  inputHorario.type = 'time';
+  inputHorario.id = 'horario';
+  inputHorario.name = 'horario';
+
+  fieldset.appendChild(inputHorario);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  return fieldset;
 }
 
-  function fieldsetComentario(){
-      const fieldset = document.createElement('fieldset');
+function fieldsetComentario() {
+  const fieldset = document.createElement('fieldset');
 
-      fieldset.innerHTML=`
-      <!-- COMENTÁRIO LIVRE -->
-      <fieldset>
-      <legend>Comentário livre</legend>
-      <label for="assunto">Deixe sua opinião ou sugestão:</label><br>
-      <select id="assunto" name="assunto">
-      <option value="">-- Escolha uma opção --</option>
-      <option value="reclamacao">Reclamação</option>
-      <option value="sugestao">Sugestão</option>
-      <option value="elogios">Elogios</option>
-      <option value="outros-assuntos">Outros Assuntos</option>
-      </select><br><br>
-      <textarea id="mensagem" name="mensagem" rows="5" cols="40"
-      placeholder="Digite aqui..."></textarea><br><br>
-      </fieldset>
-      
-  `
+  const legend = document.createElement('legend');
+  legend.textContent = 'Comentário livre';
+  fieldset.appendChild(legend);
+
+  // Label para o select
+  const labelAssunto = document.createElement('label');
+  labelAssunto.setAttribute('for', 'assunto');
+  labelAssunto.textContent = 'Deixe sua opinião ou sugestão:';
+  fieldset.appendChild(labelAssunto);
+  fieldset.appendChild(document.createElement('br'));
+
+  // Select
+  const select = document.createElement('select');
+  select.id = 'assunto';
+  select.name = 'assunto';
+
+  const opcoes = [
+    { value: '', texto: '-- Escolha uma opção --' },
+    { value: 'reclamacao', texto: 'Reclamação' },
+    { value: 'sugestao', texto: 'Sugestão' },
+    { value: 'elogios', texto: 'Elogios' },
+    { value: 'outros-assuntos', texto: 'Outros Assuntos' }
+  ];
+
+  opcoes.forEach(opcao => {
+    const option = document.createElement('option');
+    option.value = opcao.value;
+    option.textContent = opcao.texto;
+    select.appendChild(option);
+  });
+
+  fieldset.appendChild(select);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  // Textarea
+  const textarea = document.createElement('textarea');
+  textarea.id = 'mensagem';
+  textarea.name = 'mensagem';
+  textarea.rows = 5;
+  textarea.cols = 40;
+  textarea.placeholder = 'Digite aqui...';
+
+  // Inicialmente desabilitado se a primeira opção for "-- Escolha uma opção --"
+  textarea.disabled = true;
+
+  fieldset.appendChild(textarea);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
+
+  // Evento para habilitar/desabilitar textarea conforme a seleção
+  select.addEventListener('change', () => {
+    textarea.disabled = (select.value === '');
+  });
+
+  return fieldset;
 }
+
+
+
 function mostrarPesquisa() {
-  const aside = document.querySelector('aside');
-  aside.innerHTML = ''; // Remove conteúdo anterior
-  
-  const h2 = document.createElement('h2');
-  h2.textContent='Pesquisa sobre Cardápio Escolar'
-  aside.appendChild(h2)  
-  
-  const form = document.createElement('form');
+    const aside = document.querySelector('aside');
+    aside.innerHTML = ''; 
 
-  
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Pesquisa sobre Cardápio Escolar'
+    aside.appendChild(h2)
 
+    const form = document.createElement('form');
 
-    form.appendChild(fieldsetDados());
-    form.appendChild(fildsetAvaliarRefeicao());
+    form.appendChild(fieldsetDadosPessoais());
+    form.appendChild(fieldsetAvaliarRefeicao());
     form.appendChild(fieldsetComentario());
     const enviar = document.createElement('button');
-    enviar.textContent = 'Enviar';
+    enviar.textContent = 'Enviar Resposta';
     enviar.type = 'submit';
     form.appendChild(enviar);
 
-  aside.appendChild(form);
-}
+    const limpar = document.createElement('button')
+    limpar.textContent = "Limpar Formulário"
+    limpar.type = 'reset'
 
+    aside.appendChild(form);
+}
 
 async function iniciarSite() {
     const h2 = document.createElement('h2');
@@ -190,7 +368,7 @@ async function iniciarSite() {
         h2.textContent = 'Cardápio Indisponível';
         return;
     }
-    
+
 
     const hoje = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
     const turnoAtual = verificarTurnoAtual();
