@@ -1,11 +1,12 @@
 const turno = 'tarde'
 const dia = 'quarta-feira'
 
+//mudar dia para data atual
 const cardapio = {
-    dia: 'quarta-feira',
-    turno: 'integral',
+    data: '2025-09-10T00:00:00-03:00',
+    turno: 'noturno',
     refeicao: {
-        titulo: 'almoco',
+        titulo: 'janta',
         itens: ['Feijoada', 'arroz', 'farofa', 'couve'],
         bebida: 'Suco de laranja',
         img: ["https://i.pinimg.com/236x/5c/4c/c7/5c4cc7aa84e7b969255533a4c77952ee.jpg", 'https://cdn0.umcomo.com.br/pt/posts/6/8/2/como_fazer_limonada_286_600.jpg'],
@@ -17,10 +18,34 @@ const cardapio = {
         img: ['https://blog.unicpharma.com.br/wp-content/uploads/2019/06/manteiga_1.jpg', 'https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg'],
     }
 }
+//tratar data
+function organizarRotina(cardapio) {
+    const hoje = new Date(cardapio.data)
 
 
-function mostrarRefeicao(refeicao) {
+    return {
+        dia: hoje.toLocaleDateString('pt-BR', { weekday: 'long' }),
+        data: hoje.toLocaleDateString('pt-BR'),
+        turno: cardapio.turno
+    }
+
+}
+
+function verificarTurnoAtual() {
+    const agora = new Date().getHours() * 60 + new Date().getMinutes()
+    if (agora <= 570) return 'manha' // 9h30}
+    if (agora > 570 && agora < 720) return 'integral' // 12h
+    if (agora >= 720 && agora < 840) return 'tarde' // 14h
+    if (agora >= 840 && agora < 1215) return 'integral'
+    return 'noturno' // 20h
+}
+
+function mostrarRefeicao(refeicao, titulo) {
     const section = document.createElement('section')
+
+    const h3 = document.createElement('h3')
+    h3.textContent = titulo
+    main.appendChild(h3)
 
     const h4 = document.createElement('h4')
     h4.textContent = refeicao.titulo
@@ -80,23 +105,25 @@ function mostrarPesquisa() {
 
 
 function iniciarSite() {
-    const main = document.querySelector('main')
+
     const h2 = document.createElement('h2')
     main.appendChild(h2)
-    if (dia === 'domingo') {
-        h2.textContent = 'Cardápio Indisponivel'
+
+    const { dia, data, turno } = organizarRotina(cardapio)
+    if (turno !== verificarTurnoAtual() || !dia) {
+        h2.textContent = 'Cardápio Indisponivel'    
     } else {
         h2.textContent = 'Cardápio do Dia'
 
-        const h3 = document.createElement('h3')
-        h3.textContent = `${cardapio.dia} - turno: ${cardapio.turno}`
-        main.appendChild(h3)
+        
+        const titulo = `${data} ${dia} - turno: ${turno}`
+        
 
+        main.appendChild(mostrarRefeicao(cardapio.refeicao, titulo))
 
-        main.appendChild(mostrarRefeicao(cardapio.refeicao))
-
-        if (turno === 'tarde') {
-            main.appendChild(mostrarRefeicao(cardapio.lanche))
+        if (turno === 'noturno') {
+            const titulo = `${data} ${dia} - turno: ${turno}`
+            main.appendChild(mostrarRefeicao(cardapio.lanche, titulo))
         }
 
         mostrarPesquisa()
@@ -104,5 +131,6 @@ function iniciarSite() {
     }
 
 }
+const main = document.querySelector('main')
 
 iniciarSite()
