@@ -4,7 +4,7 @@ const dia = 'quarta-feira'
 //mudar dia para data atual
 const cardapios = [
     {
-    data: '2025-09-10T00:00:00-03:00',
+    data: '2025-09-11T00:00:00-03:00',
     turno: 'integral',
     refeicao: {
         titulo: 'janta',
@@ -19,7 +19,7 @@ const cardapios = [
         img: ['https://blog.unicpharma.com.br/wp-content/uploads/2019/06/manteiga_1.jpg', 'https://hubdocafe.cooxupe.com.br/wp-content/uploads/2024/05/beneficios-do-cafe-com-leite-510x337.jpg'],
     }
 },{
-    data: '2025-09-10T00:00:00-03:00',
+    data: '2025-09-11T00:00:00-03:00',
     turno: 'manhã',
     refeicao: {
         titulo: 'janta',
@@ -29,7 +29,7 @@ const cardapios = [
     },
 
 },{
-    data: '2025-09-10T00:00:00-03:00',
+    data: '2025-09-11T00:00:00-03:00',
     turno: 'tarde',
     refeicao: {
         titulo: 'janta',
@@ -39,7 +39,7 @@ const cardapios = [
     },
     
 },{
-    data: '2025-09-10T00:00:00-03:00',
+    data: '2025-09-11T00:00:00-03:00',
     turno: 'noturno',
     refeicao: {
         titulo: 'janta',
@@ -52,6 +52,7 @@ const cardapios = [
 ]
 //tratar data
 function organizarRotina(cardapio) {
+    console.log(cardapio)
     const hoje = new Date(cardapio.data)
 
 
@@ -137,32 +138,35 @@ function mostrarPesquisa() {
 
 
 function iniciarSite() {
+    const h2 = document.createElement('h2');
+    main.appendChild(h2);
 
-    const h2 = document.createElement('h2')
-    main.appendChild(h2)
+    const hoje = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    const turnoAtual = verificarTurnoAtual();
 
-    const { dia, data, turno } = organizarRotina(cardapios[3])
-    if (turno !== verificarTurnoAtual() || !dia) {
-        h2.textContent = 'Cardápio Indisponivel'    
-    } else {
-        h2.textContent = 'Cardápio do Dia'
+    const cardapio = cardapios.find(c =>
+        c.turno === turnoAtual &&
+        c.data.startsWith(hoje)
+    );
 
-        
-        const titulo = `${data} ${dia} - turno: ${turno}`
-        
-
-        main.appendChild(mostrarRefeicao(cardapios[3].refeicao, titulo))
-        console.log(turno)
-        if (turno === 'tarde') {
-            const titulo = `${data} ${dia} - turno: ${turno}`
-            main.appendChild(mostrarRefeicao(cardapios[0].lanche, titulo))
-        }
-
-        mostrarPesquisa()
-
+    if (!cardapio) {
+        h2.textContent = 'Cardápio Indisponível';
+        return;
     }
 
+    const { dia, data, turno } = organizarRotina(cardapio);
+    h2.textContent = 'Cardápio do Dia';
+
+    const titulo = `${data} ${dia} - turno: ${turno}`;
+    main.appendChild(mostrarRefeicao(cardapio.refeicao, titulo));
+
+    if (turno === 'tarde' && cardapio.lanche) {
+        main.appendChild(mostrarRefeicao(cardapio.lanche, titulo));
+    }
+
+    mostrarPesquisa();
 }
+
 const main = document.querySelector('main')
 
 iniciarSite()
