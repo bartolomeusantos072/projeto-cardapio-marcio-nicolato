@@ -352,7 +352,7 @@ function capturarDadosFormulario(form) {
     };
 
     try {
-      const resposta = await fetch('http://localhost:3000/respostas', {
+      const resposta = await fetch('https://api-cantina-storage.vercel.app/respostas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
