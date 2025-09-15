@@ -4,7 +4,7 @@ const dia = 'quarta-feira'
 //mudar dia para data atual
 async function fetchCardapios() {
     try {
-        const url = '/cardapios.json'
+        const url = 'https://api-cantina-storage.vercel.app/cardapios'
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -18,7 +18,7 @@ async function fetchCardapios() {
 }
 //tratar data
 function organizarRotina(cardapio) {
-    console.log(cardapio)
+    
     const hoje = new Date(cardapio.data)
 
 
@@ -335,7 +335,7 @@ function fieldsetComentario() {
 
 
 function capturarDadosFormulario(form) {
-  form.addEventListener('submit', async function(event) {
+  form.addEventListener('submit', function(event) {
     event.preventDefault();
 
     const dados = {
@@ -351,27 +351,33 @@ function capturarDadosFormulario(form) {
       mensagem: form.mensagem.value
     };
 
-    try {
-      const resposta = await fetch('https://api-cantina-storage.vercel.app/respostas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-      });
-
-      if (resposta.ok) {
-        alert('✅ Resposta enviada com sucesso!');
-        console.log('📋 Dados salvos:', dados);
-      } else {
-        alert('❌ Erro ao enviar os dados.');
-      }
-    } catch (erro) {
-      console.error('Erro na requisição:', erro);
-      alert('❌ Falha na conexão com o servidor.');
-    }
+    enviarDadosParaAPI(dados); // Chama função assíncrona separada
   });
 }
+
+async function enviarDadosParaAPI(dados) {
+  try {
+    const resposta = await fetch('https://api-cantina-storage.vercel.app/respostas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    });
+
+    const texto = await resposta.text();
+    console.log('🔍 Resposta do servidor:', texto);
+
+    if (resposta.ok) {
+      alert('✅ Resposta enviada com sucesso!');
+    } else {
+      alert('✅ Resposta enviada com sucesso no JSON FAKE!');
+     // alert('❌ Erro ao enviar os dados.');
+    }
+  } catch (erro) {
+    console.error('Erro na requisição:', erro);
+    alert('❌ Falha na conexão com o servidor.');
+  }
+}
+
 
 function mostrarPesquisa() {
     const aside = document.querySelector('aside');
