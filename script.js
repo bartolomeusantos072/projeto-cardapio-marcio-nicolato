@@ -4,7 +4,7 @@ const dia = 'quarta-feira'
 //mudar dia para data atual
 async function fetchCardapios() {
     try {
-        const url = 'https://api-cantina-storage.vercel.app/cardapios'
+        const url = '/cardapios.json'
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -334,6 +334,44 @@ function fieldsetComentario() {
 }
 
 
+function capturarDadosFormulario(form) {
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const dados = {
+      nome: form.nome.value,
+      idade: form.idade.value,
+      email: form.email.value,
+      data: form.data.value,
+      participacao: form.participacao.value,
+      avaliacao: [...form.querySelectorAll('input[name="avaliacao"]:checked')].map(el => el.value),
+      nota: form.nota.value,
+      horario: form.horario.value,
+      assunto: form.assunto.value,
+      mensagem: form.mensagem.value
+    };
+
+    try {
+      const resposta = await fetch('http://localhost:3000/respostas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      });
+
+      if (resposta.ok) {
+        alert('✅ Resposta enviada com sucesso!');
+        console.log('📋 Dados salvos:', dados);
+      } else {
+        alert('❌ Erro ao enviar os dados.');
+      }
+    } catch (erro) {
+      console.error('Erro na requisição:', erro);
+      alert('❌ Falha na conexão com o servidor.');
+    }
+  });
+}
 
 function mostrarPesquisa() {
     const aside = document.querySelector('aside');
@@ -356,8 +394,9 @@ function mostrarPesquisa() {
     const limpar = document.createElement('button')
     limpar.textContent = "Limpar Formulário"
     limpar.type = 'reset'
-
+    form.appendChild(limpar)
     aside.appendChild(form);
+    capturarDadosFormulario(form);
 }
 
 async function iniciarSite() {
@@ -388,8 +427,9 @@ async function iniciarSite() {
     if (turno === 'tarde' && cardapio.lanche) {
         main.appendChild(mostrarRefeicao(cardapio.lanche, titulo));
     }
+    const botaoMostrarFormulario= document.querySelector('button');
+    botaoMostrarFormulario.addEventListener('click', mostrarPesquisa);
 
-    document.getElementById('botaoMostrarFormulario').addEventListener('click', mostrarPesquisa);
 }
 
 const main = document.querySelector('main')
