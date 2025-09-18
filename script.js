@@ -2,7 +2,7 @@
 //mudar dia para data atual
 async function fetchCardapios() {
     try {
-        const url = '/cardapios.json'
+        const url = 'https://api-cantina-storage.vercel.app/cardapios'
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
