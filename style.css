@@ -16,11 +16,12 @@ body {
 
 /* Header atualizado */
 header {
-  background-image: url("./img/fundo-escola.jpeg");
+  background-image: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhl3D2Jmq0WioZh_7hPCdFCX_kYzJe6nDe47RpxWZwzaYMp7YoS4-B3Yb47RSd6ip5Mf1WMtjeLzTjCrki5qT9F1INJ7z26vf-ucbP6vok32x16xidzfupIRIYVvpLx2suF2dOJoqEvLrwPZnhMvYS8u1E7U7JVuVQWd4WoKZWLgKWRhyKx8JET0ulH1zE/w640-h480/escola.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
-  height: 200px;
+  background-position: center 45%;
+  /* Coloca a imagem alinhada ao topo */
+  height: 250px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -42,7 +43,7 @@ header img {
 
 h1 {
   font-size: 10em; /* Restaurado para telas grandes */
-  color: rgb(77, 77, 46);
+  color: rgb(228, 228, 225);
   text-align: center;
 }
 

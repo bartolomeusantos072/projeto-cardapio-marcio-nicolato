@@ -113,8 +113,8 @@ function fieldsetDadosPessoais() {
   inputIdade.type = 'number';
   inputIdade.id = 'idade';
   inputIdade.name = 'idade';
-  inputIdade.min = 6;
-  inputIdade.max = 20;
+  inputIdade.min = 11;
+  inputIdade.max = 50;
   inputIdade.required = true;
 
   fieldset.appendChild(labelIdade);
@@ -180,10 +180,11 @@ function fieldsetAvaliarRefeicao() {
 
   const labelSim = document.createElement('label');
   labelSim.setAttribute('for', 'sim');
-  labelSim.textContent = 'Sim';
-
-  fieldset.appendChild(inputSim);
+  
+  
   fieldset.appendChild(labelSim);
+  labelSim.appendChild(inputSim);
+  labelSim.appendChild(document.createTextNode('Sim'))
   fieldset.appendChild(document.createElement('br'));
 
   // Radio "Não"
@@ -195,10 +196,10 @@ function fieldsetAvaliarRefeicao() {
 
   const labelNao = document.createElement('label');
   labelNao.setAttribute('for', 'nao');
-  labelNao.textContent = 'Não';
-
-  fieldset.appendChild(inputNao);
+  
   fieldset.appendChild(labelNao);
+  labelNao.appendChild(inputNao);
+  labelNao.appendChild(document.createTextNode('Não')) ;
   fieldset.appendChild(document.createElement('br'));
   fieldset.appendChild(document.createElement('br'));
 
@@ -224,10 +225,11 @@ function fieldsetAvaliarRefeicao() {
 
     const label = document.createElement('label');
     label.setAttribute('for', opcao.id);
-    label.textContent = opcao.texto;
+    
 
-    fieldset.appendChild(input);
     fieldset.appendChild(label);
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(`${opcao.texto}`))
     fieldset.appendChild(document.createElement('br'));
   });
 
@@ -372,7 +374,8 @@ function capturarDadosFormulario(form) {
       nota: form.nota.value,
       horario: form.horario.value,
       assunto: form.assunto.value,
-      mensagem: form.mensagem.value
+      mensagem: form.mensagem.value,
+      arquivo: form.arquivo.files[0] || null
     };
 
     enviarDadosParaAPI(dados); // Chama função assíncrona separada
@@ -417,15 +420,18 @@ function mostrarPesquisa() {
     form.appendChild(fieldsetAnexarArquivo())
     form.appendChild(fieldsetAvaliarRefeicao());
     form.appendChild(fieldsetComentario());
+
     const enviar = document.createElement('button');
     enviar.textContent = 'Enviar Resposta';
     enviar.type = 'submit';
     form.appendChild(enviar);
+    enviar.style.margin='15px'
 
     const limpar = document.createElement('button')
     limpar.textContent = "Limpar Formulário"
     limpar.type = 'reset'
     form.appendChild(limpar);
+    limpar.style.margin='15px'
 
     aside.appendChild(form);
     capturarDadosFormulario(form);
@@ -456,10 +462,15 @@ async function iniciarSite() {
 
     const titulo = `${data} ${dia} - turno: ${turno}`;
     main.appendChild(mostrarRefeicao(cardapio.refeicao, titulo));
-   
-    if (turno === 'tarde' && cardapio.lanche) {
-        main.appendChild(mostrarRefeicao(cardapio.lanche, titulo));
+        if (cardapio.turno === "tarde") {
+    const integral = cardapios.find(c => c.turno === "integral" && c.data && c.data.startsWith(cardapio.data.slice(0, 10))
+    );
+
+    if (integral && integral.lanche) { // use && para logica e(AND)
+      const subtitulo = `Lanche ${integral.lanche.titulo} – ${dia} - ${data}`;
+      main.appendChild(mostrarRefeicao(integral.lanche, subtitulo));
     }
+  }
     const botaoMostrarFormulario= document.querySelector('button');
     botaoMostrarFormulario.addEventListener('click', mostrarPesquisa);
 
