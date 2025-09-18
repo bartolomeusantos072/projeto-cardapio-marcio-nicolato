@@ -16,7 +16,7 @@ async function fetchCardapios() {
 }
 //tratar data
 function organizarRotina(cardapio) {
-    console.log(cardapio)
+    
     const hoje = new Date(cardapio.data)
 
 
@@ -358,6 +358,51 @@ function fieldsetAnexarArquivo() {
   return fieldset
 }
 
+function capturarDadosFormulario(form) {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const dados = {
+      nome: form.nome.value,
+      idade: form.idade.value,
+      email: form.email.value,
+      data: form.data.value,
+      participacao: form.participacao.value,
+      avaliacao: [...form.querySelectorAll('input[name="avaliacao"]:checked')].map(el => el.value),
+      nota: form.nota.value,
+      horario: form.horario.value,
+      assunto: form.assunto.value,
+      mensagem: form.mensagem.value
+    };
+
+    enviarDadosParaAPI(dados); // Chama função assíncrona separada
+  });
+}
+
+async function enviarDadosParaAPI(dados) {
+  try {
+    const resposta = await fetch('https://api-cantina-storage.vercel.app/respostas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    });
+
+    const texto = await resposta.text();
+    console.log('🔍 Resposta do servidor:', texto);
+
+    if (resposta.ok) {
+      alert('✅ Resposta enviada com sucesso!');
+    } else {
+      alert('✅ Resposta enviada com sucesso no JSON FAKE!');
+     // alert('❌ Erro ao enviar os dados.');
+    }
+  } catch (erro) {
+    console.error('Erro na requisição:', erro);
+    alert('❌ Falha na conexão com o servidor.');
+  }
+}
+
+
 function mostrarPesquisa() {
     const aside = document.querySelector('aside');
     aside.innerHTML = ''; 
@@ -383,6 +428,7 @@ function mostrarPesquisa() {
     form.appendChild(limpar);
 
     aside.appendChild(form);
+    capturarDadosFormulario(form);
 }
 
 
@@ -414,8 +460,9 @@ async function iniciarSite() {
     if (turno === 'tarde' && cardapio.lanche) {
         main.appendChild(mostrarRefeicao(cardapio.lanche, titulo));
     }
+    const botaoMostrarFormulario= document.querySelector('button');
+    botaoMostrarFormulario.addEventListener('click', mostrarPesquisa);
 
-    document.getElementById('botaoMostrarFormulario').addEventListener('click', mostrarPesquisa);
 }
 
 const main = document.querySelector('main')
