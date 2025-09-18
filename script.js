@@ -335,34 +335,70 @@ function fieldsetComentario() {
 }
 
 function fieldsetAnexarArquivo() {
-  const fieldset = document.createElement('fieldset')
+  const fieldset = document.createElement('fieldset');
   
-  const legend = document.createElement('legend')
-  legend.textContent = 'Anexar imagem'
-  fieldset.appendChild(legend)
+  const legend = document.createElement('legend');
+  legend.textContent = 'Anexar imagem';
+  fieldset.appendChild(legend);
 
-  const labelArquivo = document.createElement('label')
-  labelArquivo.textContent='(opcional)'
-  fieldset.appendChild(labelArquivo)
-  fieldset.appendChild(document.createElement('br'))
+  const labelArquivo = document.createElement('label');
+  labelArquivo.textContent = '(opcional)';
+  fieldset.appendChild(labelArquivo);
+  fieldset.appendChild(document.createElement('br'));
 
-  const inputArquivo = document.createElement('input')
-  inputArquivo.type='file'
-  inputArquivo.id = 'arquivo'
-  inputArquivo.name = 'arquivo'
+  const inputArquivo = document.createElement('input');
+  inputArquivo.type = 'file';
+  inputArquivo.id = 'arquivo';
+  inputArquivo.name = 'arquivo';
+  inputArquivo.accept = '.jpg, .jpeg, .png';
+  fieldset.appendChild(inputArquivo);
+  fieldset.appendChild(document.createElement('br'));
+  fieldset.appendChild(document.createElement('br'));
 
-  inputArquivo.accept = '.jpg, .jpeg, .png, .pdf'
+  const inputLinkImagem = document.createElement('input');
+  inputLinkImagem.type = 'hidden';
+  inputLinkImagem.id = 'imagem-url';
+  inputLinkImagem.name = 'imagem-url';
+  fieldset.appendChild(inputLinkImagem);
 
-  fieldset.appendChild(inputArquivo)
-  fieldset.appendChild(document.createElement('br'))
-  fieldset.appendChild(document.createElement('br'))
-
-  return fieldset
+  return fieldset;
 }
 
+
 function capturarDadosFormulario(form) {
-  form.addEventListener('submit', function(event) {
+  const imgbbAPIKey = 'ae4c387617b87521016772a4bf82172b'; // Substitua pela sua chave real
+
+  form.addEventListener('submit', async function(event) {
     event.preventDefault();
+
+    const arquivo = form.arquivo.files[0];
+
+    let imagemUrl = '';
+    if (arquivo) {
+      const formData = new FormData();
+      formData.append('image', arquivo);
+
+      try {
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          imagemUrl = result.data.url;
+          form.querySelector('#imagem-url').value = imagemUrl;
+        } else {
+          alert('Erro ao enviar imagem para o ImgBB.');
+          return;
+        }
+      } catch (error) {
+        console.error('Erro no upload da imagem:', error);
+        alert('Erro ao conectar com o ImgBB.');
+        return;
+      }
+    }
 
     const dados = {
       nome: form.nome.value,
@@ -375,12 +411,13 @@ function capturarDadosFormulario(form) {
       horario: form.horario.value,
       assunto: form.assunto.value,
       mensagem: form.mensagem.value,
-      arquivo: form.arquivo.files[0] || null
+      imagem: imagemUrl // ou: form['imagem-url'].value
     };
 
-    enviarDadosParaAPI(dados); // Chama função assíncrona separada
+    enviarDadosParaAPI(dados);
   });
 }
+
 
 async function enviarDadosParaAPI(dados) {
   try {
