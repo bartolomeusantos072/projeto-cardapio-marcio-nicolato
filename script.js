@@ -1,10 +1,8 @@
-const turno = 'tarde'
-const dia = 'quarta-feira'
 
 //mudar dia para data atual
 async function fetchCardapios() {
     try {
-        const url = 'https://api-cantina-storage.vercel.app/cardapios'
+        const url = '/cardapios.json'
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -80,6 +78,8 @@ function mostrarRefeicao(refeicao, titulo) {
 
     return section
 }
+
+// formulário
 
 function fieldsetDadosPessoais() {
   // Cria o fieldset e a legend
@@ -157,7 +157,6 @@ function fieldsetDadosPessoais() {
 
   return fieldset;
 }
-
 
 function fieldsetAvaliarRefeicao() {
   const fieldset = document.createElement('fieldset');
@@ -333,7 +332,31 @@ function fieldsetComentario() {
   return fieldset;
 }
 
+function fieldsetAnexarArquivo() {
+  const fieldset = document.createElement('fieldset')
+  
+  const legend = document.createElement('legend')
+  legend.textContent = 'Anexar imagem'
+  fieldset.appendChild(legend)
 
+  const labelArquivo = document.createElement('label')
+  labelArquivo.textContent='(opcional)'
+  fieldset.appendChild(labelArquivo)
+  fieldset.appendChild(document.createElement('br'))
+
+  const inputArquivo = document.createElement('input')
+  inputArquivo.type='file'
+  inputArquivo.id = 'arquivo'
+  inputArquivo.name = 'arquivo'
+
+  inputArquivo.accept = '.jpg, .jpeg, .png, .pdf'
+
+  fieldset.appendChild(inputArquivo)
+  fieldset.appendChild(document.createElement('br'))
+  fieldset.appendChild(document.createElement('br'))
+
+  return fieldset
+}
 
 function mostrarPesquisa() {
     const aside = document.querySelector('aside');
@@ -346,6 +369,7 @@ function mostrarPesquisa() {
     const form = document.createElement('form');
 
     form.appendChild(fieldsetDadosPessoais());
+    form.appendChild(fieldsetAnexarArquivo())
     form.appendChild(fieldsetAvaliarRefeicao());
     form.appendChild(fieldsetComentario());
     const enviar = document.createElement('button');
@@ -356,9 +380,11 @@ function mostrarPesquisa() {
     const limpar = document.createElement('button')
     limpar.textContent = "Limpar Formulário"
     limpar.type = 'reset'
+    form.appendChild(limpar);
 
     aside.appendChild(form);
 }
+
 
 async function iniciarSite() {
     const h2 = document.createElement('h2');
@@ -384,7 +410,7 @@ async function iniciarSite() {
 
     const titulo = `${data} ${dia} - turno: ${turno}`;
     main.appendChild(mostrarRefeicao(cardapio.refeicao, titulo));
-
+   
     if (turno === 'tarde' && cardapio.lanche) {
         main.appendChild(mostrarRefeicao(cardapio.lanche, titulo));
     }
@@ -393,5 +419,6 @@ async function iniciarSite() {
 }
 
 const main = document.querySelector('main')
+let cardapios=[]
 
 iniciarSite()
